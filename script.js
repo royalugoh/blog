@@ -1,6 +1,6 @@
 const postsContainer = document.getElementById('posts-container');
 const loading = document.querySelector('.loader');
-const filter = document.querySelector('filter');
+const filter = document.querySelector('#filter');
 
 let limit = 5;
 let page = 1;
@@ -51,6 +51,24 @@ function showLoading() {
   }, 1000);
 }
 
+function filterPosts(e) {
+  const term = e.target.value.toUpperCase();
+
+  const posts = document.querySelectorAll('.post');
+
+  posts.forEach((post) => {
+    const title = post.querySelector('.post-title').innerHTML.toUpperCase();
+
+    const body = post.querySelector('.post-body').innerHTML.toUpperCase();
+
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'flex';
+    } else {
+      post.style.display = 'none';
+    }
+  });
+}
+
 showPosts();
 
 window.addEventListener('scroll', () => {
@@ -60,3 +78,5 @@ window.addEventListener('scroll', () => {
     showLoading();
   }
 });
+
+filter.addEventListener('input', filterPosts);
